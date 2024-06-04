@@ -1,5 +1,7 @@
 package Client.Phases;
 
+import Client.Phases.Strategies.PhaseStrategy;
+
 import java.io.IOException;
 
 public class Phase {

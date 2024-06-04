@@ -1,6 +1,8 @@
 package Client.Phases;
 
 import Client.ClientProcess.Connection;
+import Client.Phases.Strategies.PhaseStrategy;
+import Client.Phases.Strategies.PhaseStrategyFactory;
 import Client.Useful.PhaseEnum;
 
 import java.io.IOException;

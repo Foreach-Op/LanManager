@@ -18,10 +18,11 @@ public class Connection{
 
     protected DataInputStream inputStream;
     protected DataOutputStream outputStream;
+    private final Scanner scanner = new Scanner(System.in);
 
     private String token;
 
-    public Connection(Socket clientSocket) {
+    public Connection(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
         try {
             System.out.println("Client is connected to the Server");
@@ -34,17 +35,55 @@ public class Connection{
 
         try {
             boolean isConnectionAlive = true;
-            while (isConnectionAlive) {
+            while (true) {
+                showOptions();
+                int processToDo = scanner.nextInt();
+                PhaseEnum requiredOption = getRequiredOption(processToDo);
+                if(requiredOption==null){
+                    System.out.println("Exiting");
+                    break;
+                }
                 PhaseHandler phaseHandler = PhaseHandler.getInstance();
-                phaseHandler.execute(this, PhaseEnum.Authentication);
-                if(token!=null)
-                    isConnectionAlive = false;
+                phaseHandler.execute(this, requiredOption);
             }
         } catch(SocketException e){
             System.err.println("Connection is timeout");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            closeEverything();
+        }
+    }
+
+    private PhaseEnum getRequiredOption(int processToDo){
+        if(token==null){
+            if(processToDo==1)
+                return PhaseEnum.Authentication;
+            else if(processToDo==2)
+                return PhaseEnum.Signup;
+        }
+        else{
+            if(processToDo==1)
+                return PhaseEnum.Querying;
+        }
+        return null;
+    }
+
+    private void showOptions(){
+        if(token==null)
+            showEntranceOptions();
+        else
+            showContentOptions();
+        System.out.println("Chose your option:");
+    }
+
+    private void showEntranceOptions(){
+        System.out.println("1-) Login\n2-) Signup");
+    }
+
+    private void showContentOptions(){
+        System.out.println("1-) ...\n2-) ...");
     }
 
 

@@ -22,6 +22,8 @@ public class PhaseControl {
         Constants constants = Constants.getInstance();
         if (currentPhase == constants.AUTHENTICATION_PHASE) {
             programPhase = PhaseEnum.Authentication;
+        } else if(currentPhase == constants.SIGNUP_PHASE){
+            programPhase = PhaseEnum.Signup;
         } else if(currentPhase == constants.QUERYING_PHASE){
             programPhase = PhaseEnum.Querying;
         }

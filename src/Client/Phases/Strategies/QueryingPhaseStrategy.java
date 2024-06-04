@@ -1,4 +1,4 @@
-package Client.Phases;
+package Client.Phases.Strategies;
 
 import Client.Protocols.Protocol;
 import Client.ClientProcess.Connection;

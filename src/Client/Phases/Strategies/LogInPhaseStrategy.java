@@ -1,4 +1,4 @@
-package Client.Phases;
+package Client.Phases.Strategies;
 
 import Client.Protocols.Protocol;
 import Client.ClientProcess.Connection;
@@ -8,11 +8,11 @@ import Client.Useful.Response;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class AuthenticationPhaseStrategy extends PhaseStrategy {
+public class LogInPhaseStrategy extends PhaseStrategy {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public AuthenticationPhaseStrategy(Protocol protocol, Connection connection) {
+    public LogInPhaseStrategy(Protocol protocol, Connection connection) {
         super(protocol, connection);
     }
 
@@ -43,7 +43,7 @@ public class AuthenticationPhaseStrategy extends PhaseStrategy {
     }
 
     private void sendLoginRequest() throws IOException {
-        protocol.sendRequest(new Request.RequestBuilder(constants.AUTHENTICATION_PHASE, constants.AUTH_LOGIN).setMessage("Login").build());
+        protocol.sendRequest(new Request.RequestBuilder(constants.AUTHENTICATION_PHASE, constants.AUTH_INIT).setMessage("Login").build());
     }
 
     private void sendUsername() throws IOException {

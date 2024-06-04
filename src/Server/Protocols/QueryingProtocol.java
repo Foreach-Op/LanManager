@@ -25,7 +25,7 @@ public class QueryingProtocol extends Protocol{
         byte[] size = ByteBuffer.allocate(4).putInt(messageLength).array();
         byte[] msg = response.getMessage().getBytes();
 
-        applicationHeader[0] = constants.AUTHENTICATION_PHASE;
+        applicationHeader[0] = response.getPhase();
         applicationHeader[1] = response.getResponseType();
         applicationHeader[2] = response.getResponseStatus();
 

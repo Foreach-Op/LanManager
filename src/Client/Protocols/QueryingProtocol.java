@@ -26,7 +26,7 @@ public class QueryingProtocol extends Protocol{
         byte[] token = request.getToken().getBytes();
         byte[] msg = request.getMessage().getBytes();
 
-        applicationHeader[0] = constants.QUERYING_PHASE;
+        applicationHeader[0] = request.getPhase();
         applicationHeader[1] = request.getRequestType();
 
         for (int i = 2, j = 0; j < token.length; i++, j++) {

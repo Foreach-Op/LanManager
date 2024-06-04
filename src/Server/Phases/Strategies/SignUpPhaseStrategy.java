@@ -1,16 +1,19 @@
 package Server.Phases.Strategies;
 
+import Server.Protocols.AuthenticationProtocol;
 import Server.Protocols.Protocol;
 import Server.ServerProcess.Connection;
 import Server.Useful.Request;
 import Server.Useful.Response;
 
 import java.io.*;
-import java.util.Random;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
 public class SignUpPhaseStrategy extends PhaseStrategy{
-
+    
     public SignUpPhaseStrategy(Protocol protocol, Connection connection) {
         super(protocol, connection);
     }
@@ -20,6 +23,7 @@ public class SignUpPhaseStrategy extends PhaseStrategy{
         try {
             Request request = protocol.getRequest();
             System.out.println(request.getMessage());
+            System.out.println(request.getRequestType());
             if(request.getRequestType()==constants.SIGNUP_INIT){
                 greetUser();
             }else if(request.getRequestType()==constants.SIGNUP_USERNAME){
@@ -35,30 +39,30 @@ public class SignUpPhaseStrategy extends PhaseStrategy{
     }
 
     private void completeSignUp() throws IOException {
-        protocol.sendResponse(new Response.ResponseBuilder(constants.AUTHENTICATION_PHASE, constants.AUTH_SUCCESS, constants.RESPONSE_STATUS_SUCCESS)
+        protocol.sendResponse(new Response.ResponseBuilder(constants.SIGNUP_PHASE, constants.SIGNUP_SUCCESS, constants.RESPONSE_STATUS_SUCCESS)
                 .setMessage("User is saved").build());
     }
 
     private void rejectSignUp() throws IOException {
-        protocol.sendResponse(new Response.ResponseBuilder(constants.AUTHENTICATION_PHASE, constants.AUTH_FAIL, constants.RESPONSE_STATUS_SUCCESS)
+        protocol.sendResponse(new Response.ResponseBuilder(constants.SIGNUP_PHASE, constants.SIGNUP_FAIL, constants.RESPONSE_STATUS_SUCCESS)
                 .setMessage("Given username already exists").build());
     }
 
     private void greetUser() throws IOException {
-        protocol.sendResponse(new Response.ResponseBuilder(constants.AUTHENTICATION_PHASE, constants.AUTH_INIT, constants.RESPONSE_STATUS_SUCCESS)
+        protocol.sendResponse(new Response.ResponseBuilder(constants.SIGNUP_PHASE, constants.SIGNUP_INIT, constants.RESPONSE_STATUS_SUCCESS)
                 .setMessage("Welcome to the system").build());
         getUsername();
     }
 
     private void getUsername() throws IOException {
         System.out.println("Username");
-        protocol.sendResponse(new Response.ResponseBuilder(constants.AUTHENTICATION_PHASE, constants.AUTH_USERNAME, constants.RESPONSE_STATUS_SUCCESS)
+        protocol.sendResponse(new Response.ResponseBuilder(constants.SIGNUP_PHASE, constants.SIGNUP_USERNAME, constants.RESPONSE_STATUS_SUCCESS)
                 .setMessage("Username:").build());
     }
 
     private void getPassword() throws IOException {
         System.out.println("Password");
-        protocol.sendResponse(new Response.ResponseBuilder(constants.AUTHENTICATION_PHASE, constants.AUTH_PASSWORD, constants.RESPONSE_STATUS_SUCCESS)
+        protocol.sendResponse(new Response.ResponseBuilder(constants.SIGNUP_PHASE, constants.SIGNUP_PASSWORD, constants.RESPONSE_STATUS_SUCCESS)
                 .setMessage("Password:").build());
     }
 
@@ -88,14 +92,18 @@ public class SignUpPhaseStrategy extends PhaseStrategy{
         return false;
     }
 
-    public boolean recordUsernamePassword(String username, String password) {
+    public synchronized void recordUsernamePassword(String username, String password) {
         try {
+            Files.write(Paths.get(constants.TEXT_PATH), String.format("%s %s\n",username, password).getBytes(), StandardOpenOption.APPEND);
+        }catch (IOException e) {
+            //exception handling left as an exercise for the reader
+        }
+        /*try {
             BufferedWriter out = new BufferedWriter(new FileWriter(constants.TEXT_PATH));
-            out.write(String.format("%s %s",username, password));
-            out.newLine();
+            out.append(String.format("%s %s",username, password));
+            out.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        return false;
+        }*/
     }
 }

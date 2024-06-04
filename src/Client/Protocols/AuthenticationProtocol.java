@@ -25,7 +25,7 @@ public class AuthenticationProtocol extends Protocol{
         byte[] size = ByteBuffer.allocate(4).putInt(messageLength).array();
         byte[] msg = request.getMessage().getBytes();
 
-        header[0] = constants.AUTHENTICATION_PHASE;
+        header[0] = request.getPhase();
         header[1] = request.getRequestType();
 
         for (int i = 2, j = 0; i < header.length; i++, j++) {
