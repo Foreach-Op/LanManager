@@ -65,7 +65,7 @@ public class Connection{
         }
         else{
             if(processToDo==1)
-                return PhaseEnum.Querying;
+                return PhaseEnum.Cmd;
         }
         return null;
     }
@@ -83,7 +83,7 @@ public class Connection{
     }
 
     private void showContentOptions(){
-        System.out.println("1-) ...\n2-) ...");
+        System.out.println("1-) Cmd\n2-) ...");
     }
 
 

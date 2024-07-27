@@ -13,9 +13,11 @@ import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
 public class SignUpPhaseStrategy extends PhaseStrategy{
-    
-    public SignUpPhaseStrategy(Protocol protocol, Connection connection) {
-        super(protocol, connection);
+
+    private final Protocol protocol = new AuthenticationProtocol(connection);
+
+    public SignUpPhaseStrategy(Connection connection) {
+        super(connection);
     }
 
     @Override

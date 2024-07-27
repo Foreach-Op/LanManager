@@ -1,5 +1,6 @@
 package Server.Phases.Strategies;
 
+import Server.Protocols.AuthenticationProtocol;
 import Server.Protocols.Protocol;
 import Server.ServerProcess.Connection;
 import Server.Useful.Request;
@@ -10,8 +11,10 @@ import java.util.*;
 
 public class LogInPhaseStrategy extends PhaseStrategy {
 
-    public LogInPhaseStrategy(Protocol protocol, Connection connection) {
-        super(protocol, connection);
+    private final Protocol protocol = new AuthenticationProtocol(connection);
+
+    public LogInPhaseStrategy(Connection connection) {
+        super(connection);
     }
 
     @Override

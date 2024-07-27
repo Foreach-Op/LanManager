@@ -13,14 +13,13 @@ public class PhaseStrategyFactory {
     public static PhaseStrategy getPhaseStrategy(Connection connection) throws IOException {
         PhaseControl phaseControl = new PhaseControl();
         PhaseEnum phaseEnum = phaseControl.checkPhase(connection.getInputStream());
-        System.out.println("Phase:"+phaseEnum);
-        Protocol protocol = ProtocolFactory.getProtocol(phaseEnum, connection);
+        // Protocol protocol = ProtocolFactory.getProtocol(phaseEnum, connection);
         if(phaseEnum == PhaseEnum.Authentication)
-            return new LogInPhaseStrategy(protocol, connection);
+            return new LogInPhaseStrategy(connection);
         else if(phaseEnum == PhaseEnum.Signup)
-            return new SignUpPhaseStrategy(protocol, connection);
-        else if(phaseEnum == PhaseEnum.Querying)
-            return new QueryingPhaseStrategy(protocol, connection);
-        return new LogInPhaseStrategy(protocol, connection);
+            return new SignUpPhaseStrategy(connection);
+        else if(phaseEnum == PhaseEnum.Cmd)
+            return new CmdPhaseStrategy(connection);
+        return new LogInPhaseStrategy(connection);
     }
 }

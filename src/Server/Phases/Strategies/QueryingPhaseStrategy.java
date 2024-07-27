@@ -1,11 +1,16 @@
 package Server.Phases.Strategies;
 
+import Server.Protocols.AuthenticationProtocol;
 import Server.Protocols.Protocol;
+import Server.Protocols.QueryingProtocol;
 import Server.ServerProcess.Connection;
 
 public class QueryingPhaseStrategy extends PhaseStrategy {
-    public QueryingPhaseStrategy(Protocol protocol, Connection connection) {
-        super(protocol, connection);
+
+    private final Protocol protocol = new QueryingProtocol(connection);
+
+    public QueryingPhaseStrategy(Connection connection) {
+        super(connection);
     }
 
     @Override

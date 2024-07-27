@@ -49,7 +49,7 @@ public class Response {
         private final byte phase;
         private final byte responseType;
         private final byte responseStatus;
-        private String message;
+        private String message = "";
 
         public ResponseBuilder(byte phase, byte responseType, byte responseStatus) {
             this.phase = phase;

@@ -1,5 +1,6 @@
 package Client.Phases.Strategies;
 
+import Client.Protocols.AuthenticationProtocol;
 import Client.Protocols.Protocol;
 import Client.ClientProcess.Connection;
 import Client.Useful.Request;
@@ -10,10 +11,11 @@ import java.util.Scanner;
 
 public class LogInPhaseStrategy extends PhaseStrategy {
 
+    private final Protocol protocol = new AuthenticationProtocol(connection);
     private final Scanner scanner = new Scanner(System.in);
 
-    public LogInPhaseStrategy(Protocol protocol, Connection connection) {
-        super(protocol, connection);
+    public LogInPhaseStrategy(Connection connection) {
+        super(connection);
     }
 
     @Override

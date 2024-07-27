@@ -40,7 +40,7 @@ public class QueryingProtocol extends Protocol{
         byte[] payload = new byte[applicationHeader.length + messageLength];
         System.arraycopy(applicationHeader, 0, payload, 0, applicationHeader.length);
 
-        for (int i = 7, j = 0; i < payload.length; i++, j++) {
+        for (int i = 7, j = 0; j < msg.length; i++, j++) {
             payload[i] = msg[j];
         }
         return payload;

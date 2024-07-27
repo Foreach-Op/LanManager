@@ -10,12 +10,10 @@ import java.io.IOException;
 
 public abstract class PhaseStrategy {
 
-    protected Protocol protocol;
     protected Connection connection;
     protected Constants constants = Constants.getInstance();
 
-    public PhaseStrategy(Protocol protocol, Connection connection){
-        this.protocol = protocol;
+    public PhaseStrategy(Connection connection){
         this.connection = connection;
     }
 

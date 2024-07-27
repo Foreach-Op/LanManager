@@ -48,7 +48,7 @@ public class Request {
     public static class RequestBuilder {
         private final byte phase;
         private final byte requestType;
-        private String message;
+        private String message = "";
         private String token;
 
         public RequestBuilder(byte phase, byte requestType) {
